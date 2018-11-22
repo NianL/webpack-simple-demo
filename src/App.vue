@@ -1,46 +1,36 @@
 <template>
   <div id="app">
-    <h1>{{ msg }}</h1>
-    
+    <button @click="dialogIsShow=true">1.dialog</button>
+    <button @click="alertHandle">2.msg</button>
+    <l-dialog :show="dialogIsShow" @handle="dialogHandle">
+      123456
+    </l-dialog>
   </div>
 </template>
 
 <script>
+require("./lib/plugin");
+
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      dialogIsShow: false
+    };
+  },
+  methods: {
+    dialogHandle(res) {
+      this.dialogIsShow = false;
+      console.log(res);
+    },
+    alertHandle() {
+      this.$l_alert({
+        msg: "123"
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>

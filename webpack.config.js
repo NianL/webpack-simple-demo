@@ -2,7 +2,7 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  //entry: './src/main.js', // dev
+  // entry: './src/main.js', // dev
   entry: './src/lib/index.js', //build
   output: {
     path: path.resolve(__dirname, './dist'),

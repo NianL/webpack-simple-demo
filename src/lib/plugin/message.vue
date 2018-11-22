@@ -1,0 +1,171 @@
+<template>
+    <div class="popup-box">
+        <transition name="fade">
+            <div class="shadow" v-show="isShow"></div>
+        </transition>
+        <transition name="move">
+            <div class="message-box" v-show="isShow">
+                <div class="box">
+                    <div class="close"><a @click="cancelHandle">x</a></div>
+                    <div class="content">{{msg}}</div>
+                    <div class="button">
+                        <a class="confirm" @click="confirmHandle">确定</a>
+                        <a class="cancel" @click="cancelHandle" v-show="type=='confirm'">取消</a>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </div>
+</template>
+
+<script>
+export default {
+  name: "LMessage",
+  data() {
+    return {
+      type: "",
+      isShow: false,
+      msg: "",
+      confirm: null,
+      cancel: null
+    };
+  },
+  created() {
+    setTimeout(() => {
+      this.isShow = true;
+    });
+  },
+  methods: {
+    confirmHandle() {
+      if (this.confirm) this.confirm();
+      this.remove();
+    },
+    cancelHandle() {
+      if (this.cancel) this.cancel();
+      this.remove();
+    },
+    remove() {
+      this.isShow = false;
+      setTimeout(() => {
+        this.$el.parentNode.removeChild(this.$el);
+      }, 500);
+    }
+  }
+};
+</script>
+
+<style>
+.popup-box a {
+  cursor: pointer;
+}
+
+.popup-box .shadow {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: #000;
+}
+
+.popup-box .message-box {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.popup-box .message-box::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 0;
+  vertical-align: middle;
+}
+
+.popup-box .message-box .box {
+  padding: 5px 15px;
+  display: inline-block;
+  min-width: 300px;
+  max-width: 900px;
+  max-height: 100%;
+  padding-bottom: 10px;
+  vertical-align: middle;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  text-align: left;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  font-size: 16px;
+}
+
+.popup-box .message-box .close {
+  text-align: right;
+  color: #666;
+  font-size: 20px;
+}
+
+.popup-box .message-box .content {
+  line-height: 24px;
+  padding: 10px 0px;
+}
+
+.popup-box .message-box .button {
+  text-align: right;
+}
+
+.popup-box .message-box .button a {
+  font-size: 14px;
+  border-radius: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 2px 10px;
+  display: inline-block;
+  line-height: 24px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.popup-box .message-box .button a:hover {
+  background: #eee;
+}
+
+.popup-box .message-box .button a.confirm {
+  background: #888;
+  color: #fff;
+}
+
+.popup-box .message-box .button a.confirm:hover {
+  background: #666;
+}
+
+.popup-box .fade-enter-active,
+.popup-box .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.popup-box .fade-enter,
+.popup-box .fade-leave-to {
+  opacity: 0;
+}
+
+.popup-box .move-enter-active,
+.popup-box .move-leave-active {
+  transition: all 0.3s;
+}
+
+.popup-box .move-enter,
+.popup-box .move-leave-to {
+  opacity: 0;
+  transform: translate3d(0, -5%, 0);
+}
+</style>

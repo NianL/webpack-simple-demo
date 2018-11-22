@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title></title>
+  <script src="vue.js"></script>
+  <script src="../dist/index.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="dialogIsShow=true">dialog</button>
+    <button @click="alertHandle">msg</button>
+    <button @click="confirmHandle">confirm</button>
+    <button @click="loading=true">show loading</button>
+    <button @click="loading=false">hide loading</button>
+    <l-dialog :show="dialogIsShow" @handle="dialogHandle">
+      dialog弹出内容
+    </l-dialog>
+
+    <div v-loading="loading" style="position: relative; background: #ccc; padding:10px; margin-top:10px; width:500px;">
+      <pre>
+        l-dialog
+        :show(Boolean 显示隐藏) @handle(钩子返回按钮操作)
+
+        this.$l_message({
+            msg:"消息内容",
+            confirm:function(){
+                //确认
+            },
+            cancel:function(){
+                //取消
+            }
+        })
+
+        this.$l_confirm(同上)
+
+        v-loading 指定dom添加loading效果
+    </pre>
+    </div>
+  </div>
+
+  <script>
+    new Vue({
+      el: "#app",
+      data() {
+        return {
+          dialogIsShow: false,
+          loading: false
+        };
+      },
+      methods: {
+        dialogHandle(res) {
+          this.dialogIsShow = false;
+          console.log(res);
+        },
+        alertHandle() {
+          this.$l_message({
+            msg: "提示一条消息",
+            confirm: function () {
+              console.log("message");
+            }
+          });
+        },
+        confirmHandle() {
+          this.$l_confirm({
+            msg: "确定是否删除",
+            confirm: function () {
+              console.log("确认");
+            },
+            cancel: function () {
+              console.log("取消");
+            }
+          });
+        }
+      }
+    });
+
+  </script>
+</body>
+
+</html>
